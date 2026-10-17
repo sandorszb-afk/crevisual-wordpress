@@ -8,12 +8,11 @@ RUN set -eux; \
 RUN printf '%s\n' \
     '#!/bin/sh' \
     'set -eu' \
-    'echo "CREVISUAL: removing conflicting Apache MPM at runtime"' \
+    'echo "CREVISUAL: remove conflicting Apache MPM"' \
     'rm -f /etc/apache2/mods-enabled/mpm_event.load /etc/apache2/mods-enabled/mpm_event.conf /etc/apache2/mods-enabled/mpm_worker.load /etc/apache2/mods-enabled/mpm_worker.conf' \
-    'echo "CREVISUAL: active Apache MPM:"' \
-    'ls -l /etc/apache2/mods-enabled/*mpm*' \
     'apache2ctl configtest' \
-    'exec apache2-foreground' \
+    'echo "CREVISUAL: initialize WordPress using official Docker entrypoint"' \
+    'exec docker-entrypoint.sh apache2-foreground' \
     > /usr/local/bin/crevisual-start && chmod +x /usr/local/bin/crevisual-start
 
 EXPOSE 80
